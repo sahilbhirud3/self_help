@@ -37,7 +37,8 @@ class _MyRegisterState extends State<MyRegister> {
   }
 
   final db = FirebaseFirestore.instance;
-  String reg_no="",shg_name="",p_name="",s_name="",address="",gramsangh="",bankname="",bankac="",pan="",mcnt="",mob="",email="",password="";
+  late String reg_no;
+  String shg_name="",p_name="",s_name="",address="",gramsangh="",bankname="",bankac="",pan="",mcnt="",mob="",email="",password="";
 
 
 
@@ -561,69 +562,73 @@ class _MyRegisterState extends State<MyRegister> {
                                         color: Colors.white,
                                         onPressed: () async {
                                           try {
-                                            var snapshot = await FirebaseFirestore.instance
-                                                .collection('bachatgat')
-                                                .doc(reg_no)
-                                                .get();
-                                            if (snapshot.exists) {
-                                              print("registered/////////////////////////////////////////////////////");
-                                              Fluttertoast.showToast(
-                                                  msg: "Bachatgat is Already Registered",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.red,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0
-                                              );
 
-                                            }
-                                            else if(_formKey.currentState!.validate())  {
-                                              final credential = await FirebaseAuth
-                                                  .instance
-                                                  .createUserWithEmailAndPassword(
-                                                email: email,
-                                                password: password,
-                                              ).then((value){
-                                                FirebaseFirestore.instance
-                                                    .collection('bachatgat')
-                                                    .doc(reg_no)
-                                                    .set({'reg_no': reg_no,
-                                                  'name': shg_name,
-                                                  'president': p_name,
-                                                  'secretary': s_name,
-                                                  'starting_date': date,
-                                                  'address': address,
-                                                  'gramsangh': gramsangh,
-                                                  'bank_name': bankname,
-                                                  'bank_ac': bankac,
-                                                  'pan': pan,
-                                                  'member_count': mcnt,
-                                                  'mob_no': mob,
+                                            if(_formKey.currentState!.validate())  {
+
+                                              var snapshot = await FirebaseFirestore.instance
+                                                  .collection('bachatgat')
+                                                  .doc(reg_no)
+                                                  .get();
+                                              if (snapshot.exists) {
+                                                print("registered/////////////////////////////////////////////////////");
+                                                Fluttertoast.showToast(
+                                                    msg: "Bachatgat is Already Registered",
+                                                    toastLength: Toast.LENGTH_SHORT,
+                                                    gravity: ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0
+                                                );
+
+                                               }
+                                              else {
+                                                final credential = await FirebaseAuth
+                                                    .instance
+                                                    .createUserWithEmailAndPassword(
+                                                  email: email,
+                                                  password: password,
+                                                ).then((value) {
+                                                  FirebaseFirestore.instance
+                                                      .collection('bachatgat')
+                                                      .doc(reg_no)
+                                                      .set({'reg_no': reg_no,
+                                                    'name': shg_name,
+                                                    'president': p_name,
+                                                    'secretary': s_name,
+                                                    'starting_date': date,
+                                                    'address': address,
+                                                    'gramsangh': gramsangh,
+                                                    'bank_name': bankname,
+                                                    'bank_ac': bankac,
+                                                    'pan': pan,
+                                                    'member_count': mcnt,
+                                                    'mob_no': mob,
+                                                  });
+
+                                                  FirebaseFirestore.instance
+                                                      .collection('bachatgat')
+                                                      .doc(reg_no)
+                                                      .collection('users')
+                                                      .doc(value.user?.uid)
+                                                      .set({
+                                                    'name': p_name,
+                                                    'email': email,
+                                                    'designation': 'president',
+                                                    'address': address,
+                                                    'bank_ac': bankac,
+                                                    'pan': pan,
+                                                    'mob_no': mob,
+                                                  });
+
+
+                                                  Navigator.push(
+                                                    context, MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MySuc()),
+                                                  );
                                                 });
-
-                                                FirebaseFirestore.instance
-                                                    .collection('bachatgat')
-                                                    .doc(reg_no)
-                                                    .collection('users')
-                                                    .doc(value.user?.uid)
-                                                    .set({
-                                                  'name': p_name,
-                                                  'email': email,
-                                                  'designation': 'president',
-                                                  'address': address,
-                                                  'bank_ac': bankac,
-                                                  'pan': pan,
-                                                  'mob_no': mob,
-                                                    });
-
-
-
-                                              Navigator.push(
-                                                context, MaterialPageRoute(
-                                                  builder: (context) => MySuc()),
-                                              );
-                                              });
+                                              }
 
                                             }
                                           } on FirebaseAuthException catch (e) {
