@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/src/widgets/form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,10 +37,13 @@ class _MyRegisterState extends State<MyRegister> {
   }
 
   final db = FirebaseFirestore.instance;
-  late String reg_no,shg_name,p_name,s_name,address,gramsangh,bankname,bankac,pan,mcnt,mob,email,password;
+  String reg_no="",shg_name="",p_name="",s_name="",address="",gramsangh="",bankname="",bankac="",pan="",mcnt="",mob="",email="",password="";
+
+
+
 
   final _formKey=GlobalKey<FormState>();
-
+  var status;
   StreamSubscription<DocumentSnapshot>? subscription;
   //final DocumentReference documentReference=FirebaseFirestore.instance.doc("register");
   DateTime? date;
@@ -96,14 +100,15 @@ class _MyRegisterState extends State<MyRegister> {
                                       borderRadius: BorderRadius.circular(10),
 
                                     )),
-                                onChanged: (String _val) async {
+                                onChanged: (String _val){
 
                                   reg_no=_val;
                                 },
-                                validator: (value){
+                                validator: (value) {
                                   if(value==null || value.isEmpty) {
                                     return 'Enter Regno/नोंदणी क्र.प्रविष्ट करा';
-                                  }return null;
+                                  }
+                                  return null;
                                 },
                                 controller: regno,
                               ),
@@ -556,7 +561,24 @@ class _MyRegisterState extends State<MyRegister> {
                                         color: Colors.white,
                                         onPressed: () async {
                                           try {
-                                            if (_formKey.currentState!.validate())  {
+                                            var snapshot = await FirebaseFirestore.instance
+                                                .collection('bachatgat')
+                                                .doc(reg_no)
+                                                .get();
+                                            if (snapshot.exists) {
+                                              print("registered/////////////////////////////////////////////////////");
+                                              Fluttertoast.showToast(
+                                                  msg: "Bachatgat is Already Registered",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0
+                                              );
+
+                                            }
+                                            else if(_formKey.currentState!.validate())  {
                                               final credential = await FirebaseAuth
                                                   .instance
                                                   .createUserWithEmailAndPassword(
