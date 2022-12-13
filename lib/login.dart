@@ -137,72 +137,6 @@ class _MyLoginState extends State<MyLogin> {
                     }
                 ),
 
-
-
-
-                  // DropdownButton(
-                      //   items: _bachatgatName
-                      //       .map((value) => DropdownMenuItem(
-                      //             child: Text(
-                      //               value,
-                      //               style: TextStyle(color: Color(0xff11b719)),
-                      //             ),
-                      //             value: value,
-                      //           ))
-                      //       .toList(),
-                      //   onChanged: (selected) {
-                      //     setState(() {
-                      //       selectedBachatgat = selected;
-                      //     });
-                      //   },
-                      //   value: selectedBachatgat,
-                      //   isExpanded: false,
-                      //   hint: Text('Select Bachatgat Name'),
-                      // ),
-                      // StreamBuilder<QuerySnapshot>(
-                      //     stream: FirebaseFirestore.instance.collection("bachatgat").snapshots(),
-                      //     builder: (context, snapshot) {
-                      //      if (!snapshot.hasData)
-                      //         const Text("Loading.....");
-                      //       else {
-                      //         List<DropdownMenuItem> _bachatgatName = [];
-                      //         for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                      //           DocumentSnapshot snap = snapshot.data!.docs[i];
-                      //           _bachatgatName.add(
-                      //             DropdownMenuItem(
-                      //               child: Text(
-                      //                 snap.id,
-                      //                 style: TextStyle(color: Color(0xff11b719)),
-                      //               ),
-                      //               value: "${snap.id}",
-                      //             ),
-                      //           );
-                      //         }//for
-                      //         return Row(
-                      //           mainAxisAlignment: MainAxisAlignment.center,
-                      //           children: <Widget>[
-                      //
-                      //             DropdownButton(
-                      //               items: _bachatgatName,
-                      //               onChanged: (value) {
-                      //
-                      //                 setState(() {
-                      //                   selectedBachatgat = value;
-                      //                 });
-                      //               },
-                      //               value: selectedBachatgat,
-                      //               isExpanded: false,
-                      //               hint: new Text(
-                      //                 "choose",
-                      //                 style: TextStyle(color: Color(0xff11b719)),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         );
-                      //       }//else
-                      //     }
-                      // ),
-                      // ,
                       TextFormField(
                           decoration: InputDecoration(
                             hintText: 'Email/ई-मेल',
@@ -256,25 +190,88 @@ class _MyLoginState extends State<MyLogin> {
                                 try {
                                   if (_formKey.currentState!.validate())
                                     {
+                                      // Future<String> loadmyFoodItem() async {
+                                      //
+                                      //   await FirebaseFirestore.instance
+                                      //       .collection('bachatgat')
+                                      //       .where("name", isEqualTo: bName)
+                                      //       .get()
+                                      //       .then((onValue){
+                                      //     onValue.docs.forEach((f){
+                                      //
+                                      //       FirebaseFirestore.instance.collection('bachatgat').doc(f.id)
+                                      //           .collection('users')
+                                      //           .where('uid', isEqualTo: selectedFood)
+                                      //           .getDocuments()
+                                      //           .then((querySnapshot){
+                                      //         querySnapshot.documents.forEach((result){
+                                      //
+                                      //           selectedFoodRecipe = result.data['foodRecipe'];
+                                      //           print("selectedFoodRecipe $selectedFoodRecipe");
+                                      //
+                                      //         });
+                                      //       });
+                                      //     });
+                                      //   });
+                                      //
+                                      //   return 'ready';
+                                      // }//
 
 
                                   final credential = await FirebaseAuth.instance
-                                      .signInWithEmailAndPassword(
-                                          email: email, password: password);
+                                      .signInWithEmailAndPassword(email: email, password: password).
+                                  then((value) => FirebaseFirestore.instance
+                                      .collection('bachatgat')
+                                      .where("name", isEqualTo: bName)
+                                      .get()
+                                      .then((onValue){
+                                    onValue.docs.forEach((f){
 
-                                  // await FirebaseFirestore.instance
+                                      FirebaseFirestore.instance.collection('bachatgat').doc(f.id)
+                                          .collection('users')
+                                          .where('uid', isEqualTo: value.user?.uid)
+                                          .get()
+                                          .then((querySnapshot){
+                                    if(querySnapshot.docs.isNotEmpty)
+                                      {
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MyDash()),
+                                        );}
+                                    else
+                                      {
+                                        Fluttertoast.showToast(
+                                            msg: "You are not a member of $bName",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0
+                                        );
+                                      }
+
+
+
+                                        });
+                                      });
+                                    }));
+                                  }
+
+                                  // var ref=await FirebaseFirestore.instance
                                   //     .collection('bachatgat')
-                                  //     .where('bachatgat.')
-                                  //     .where('bachatgat.user.uid',isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                                  //     .snapshots().listen((data) { name = data.docs[0]["name"];})  ;
+                                  //     .where('bachatgat.name',isEqualTo: bName)
+                                  //     //.where('bachatgat.user.uid',isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                                  //     .get() ;
+                                  //
+                                  //     print("Find////////////////////////////////////////////////////");
 
 
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => MyDash()),
-                                  );}
+
+
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {
                                     Fluttertoast.showToast(

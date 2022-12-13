@@ -612,6 +612,7 @@ class _MyRegisterState extends State<MyRegister> {
                                                       .collection('users')
                                                       .doc(value.user?.uid)
                                                       .set({
+                                                    'uid':value.user?.uid,
                                                     'name': p_name,
                                                     'email': email,
                                                     'designation': 'president',
