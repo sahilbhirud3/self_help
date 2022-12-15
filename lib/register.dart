@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
@@ -617,8 +617,8 @@ class _MyRegisterState extends State<MyRegister> {
                                                     'email': email,
                                                     'designation': 'president',
                                                     'address': address,
-                                                    'bank_ac': bankac,
-                                                    'pan': pan,
+                                                    // 'bank_ac': bankac,
+                                                    // 'pan': pan,
                                                     'mob_no': mob,
                                                   });
 

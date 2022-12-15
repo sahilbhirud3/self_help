@@ -13,6 +13,7 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
+  //String bid='';
   //List<String> _bachatgatName = <String>['Jagadamba', 'Samrudhi', 'Umang'];
   final _formKey = GlobalKey<FormState>();
   final _auth = FirebaseAuth.instance;
@@ -84,9 +85,9 @@ class _MyLoginState extends State<MyLogin> {
                                   hintText: 'Choose/निवडा',
                                   hintStyle: TextStyle(
                                     //color: primaryColor,
-                                    fontSize: 16.0,
+                                    fontSize: 12.0,
                                     fontFamily: "OpenSans",
-                                    fontWeight: FontWeight.normal,
+                                    //fontWeight: FontWeight.normal,
 
                                   ),
                                 ),
@@ -94,8 +95,9 @@ class _MyLoginState extends State<MyLogin> {
                                 child: new DropdownButtonFormField(
                                   value: bName,
                                   isDense: true,
+
                                   //iconSize: 0.0,
-                                  //isExpanded: true,
+                                  isExpanded: true,
                                   onChanged: (newValue) {
                                     setState(() {
                                       bName = newValue;
@@ -122,6 +124,8 @@ class _MyLoginState extends State<MyLogin> {
                                               borderRadius: new BorderRadius.circular(5)
                                           ),
                                           height: 20.0,
+
+
                                           padding: EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 0.0),
                                           //color: primaryColor,
                                           child: new Text(document.get('name'),),
@@ -234,11 +238,11 @@ class _MyLoginState extends State<MyLogin> {
                                           .then((querySnapshot){
                                     if(querySnapshot.docs.isNotEmpty)
                                       {
-
+                                        String bid=f.id;
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => MyDash()),
+                                              builder: (context) => MyDash(bID:bid)),
                                         );}
                                     else
                                       {

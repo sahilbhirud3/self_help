@@ -23,7 +23,7 @@ void main() async {
       'login': (context) => MyLogin(),
       'register': (context) => MyRegister(),
       'successful_msg': (context) => MySuc(),
-      'dashboard': (context) => MyDash(),
+      //'dashboard': (context) => MyDash(),
     },
   ));
 }

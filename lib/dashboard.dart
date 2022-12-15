@@ -1,20 +1,30 @@
+//import 'dart:ffi';
+//import 'dart:math';
+
+
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:self_help/login.dart';
+import 'package:self_help/register.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyDash extends StatefulWidget {
-  const MyDash({Key? key}) : super(key: key);
+  final String bID;
+  //MyDash({this.bID});
+  const MyDash({Key? key,required this.bID,}) : super(key: key);
 
   @override
   State<MyDash> createState() => _MyDashState();
 }
 
 class _MyDashState extends State<MyDash> {
+  //static get bID => bID;
   @override
   void initState() {
     super.initState();
@@ -23,6 +33,7 @@ class _MyDashState extends State<MyDash> {
 
   String name = "";
   String email1 = "";
+  String desg="";
   bool? switchValue;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,8 +44,10 @@ class _MyDashState extends State<MyDash> {
     print("_getDataFromDatabase called");
     await FirebaseFirestore.instance
         .collection('bachatgat')
-        .where('bachatgat.user.uid',isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-        .snapshots().listen((data) { name = data.docs[0]["name"];})  ;
+        .doc(widget.bID)
+        .collection('users')
+        .where('uid', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+        .snapshots().listen((data) { name = data.docs[0]["name"];desg = data.docs[0]["designation"];})  ;
 
 
   }
@@ -44,7 +57,11 @@ class _MyDashState extends State<MyDash> {
   Widget build(BuildContext context) {
     bool isLoggedIn = FirebaseAuth.instance.currentUser != null
         ? true
-        : false; // check user logged in or not
+        : false;
+    bool isVisible=true;
+    // check user logged in or not
+    if(desg!='president')
+      isVisible=false;
     if (isLoggedIn) {
       return Scaffold(
         key: scaffoldKey,
@@ -103,7 +120,7 @@ class _MyDashState extends State<MyDash> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   const Text(
-                                    'hi',
+                                    'Hi',
                                     //style: FlutterFlowTheme.of(context).title3,
                                   ),
                                   Padding(
@@ -123,73 +140,85 @@ class _MyDashState extends State<MyDash> {
                 ],
               ),
             ),
-            // Row(
-            //   mainAxisSize: MainAxisSize.max,
-            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //   children: [
-            //     Text('bagha'),
-            //     ToggleButtons(
-            //         children: [
-            //           Icon(Icons.ac_unit),
-            //           Icon(Icons.call),
-            //         ],
-            //         onPressed: (int index) {
-            //           setState(() {
-            //             for (int buttonIndex = 0;
-            //                 buttonIndex < _selectedWeather.length;
-            //                 buttonIndex++) {
-            //               if (buttonIndex == index) {
-            //                 _selectedWeather[buttonIndex] = true;
-            //                 Fluttertoast.showToast(
-            //                     msg: "you selected $index",
-            //                     toastLength: Toast.LENGTH_SHORT,
-            //                     gravity: ToastGravity.BOTTOM,
-            //                     timeInSecForIosWeb: 1,
-            //                     backgroundColor: Colors.red,
-            //                     textColor: Colors.white,
-            //                     fontSize: 16.0);
-            //               } else {
-            //                 _selectedWeather[buttonIndex] = false;
-            //               }
-            //             }
-            //           });
-            //         },
-            //         isSelected: _selectedWeather),Text('taka'),
-            //   ],
-            // ),
-            const SizedBox(
+              const SizedBox(
               height: 20,
             ),
+
+
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ToggleSwitch(
-                  minWidth: 200.0,
-                  initialLabelIndex: 1,
-                  cornerRadius: 20.0,
-                  activeFgColor: Colors.white,
-                  inactiveBgColor: Colors.grey,
-                  inactiveFgColor: Colors.white,
-                  totalSwitches: 2,
-                  labels: const ['View/माहिती पहा', 'Add/माहिती टाका'],
-                  icons: const [
-                    FontAwesomeIcons.solidEye,
-                    FontAwesomeIcons.solidPenToSquare
-                  ],
-                  activeBgColors: const [
-                    [Colors.blue],
-                    [Colors.blue]
-                  ],
-                  onToggle: (index) {
-                    print('switched to: $index');
-                  },
-                ),
+                    Visibility(child:
+                    ToggleSwitch(
+                      minWidth: 200.0,
+                      initialLabelIndex: 0,
+                      cornerRadius: 20.0,
+                      activeFgColor: Colors.white,
+                      inactiveBgColor: Colors.grey,
+                      inactiveFgColor: Colors.white,
+                      totalSwitches: 2,
+
+                      labels: const ['View/माहिती पहा', 'Add/माहिती टाका'],
+                      icons: const [
+                        FontAwesomeIcons.solidEye,
+                        FontAwesomeIcons.solidPenToSquare
+                      ],
+                      activeBgColors: const [
+                        [Colors.blue],
+                        [Colors.blue]
+                      ],
+                      onToggle: (index) {
+
+                        if(index==1 && desg=='president'){
+                          print("President////////////////////////////////////////////////////////////");
+
+
+                        }
+                        print('switched to: $index');
+                      },
+
+                    ),visible: isVisible,
+                    )
+
               ],
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                extraWidget("es", "Dapur", true),
+                //extraWidget("belanja", "Memasak", false),
+                extraWidget("tirai", "Tirai Kecil", true),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                extraWidget("teras", "Teras", false),
+                //extraWidget("belanja", "Belanja", true),
+                extraWidget("tirai", "Tirai Besar", true),
+              ],
+            ),
+
+
+
           ],
+
         ),
+
+
       );
+
     } else {
       // if user isn't logged in, open login page
       return const MaterialApp(
@@ -197,4 +226,78 @@ class _MyDashState extends State<MyDash> {
       );
     }
   }
+}
+Column extraWidget(String img, String name, bool isSelected) {
+  return Column(
+    children: [
+      Stack(
+        children: [
+          Container(
+            height: 90,
+            width: 120,
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              boxShadow: [BoxShadow(color:Colors.black54,blurRadius: 10.0,)],
+
+              borderRadius:BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+            child: Container(
+              margin: const EdgeInsets.all(17),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/shg_logo.png'),
+                  fit: BoxFit.contain,
+                ),
+              ),
+              child: GestureDetector(onTap: ()=>{
+                if(name=='Teras')
+                {
+                print('I am Teras /////////////////////////////////////')
+
+              //  Navigator.push(context,
+              //  MaterialPageRoute(
+                //builder: (context) => MyRegister()),
+                //);
+
+              }
+
+              },
+  ),
+
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: isSelected == true
+                ? Container(
+              height: 30,
+              width: 30,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.check_circle,
+                  color: Colors.deepOrange,
+                ),
+              ),
+            )
+                : Container(),
+          ),
+        ],
+      ),
+      const SizedBox(
+        height: 5,
+      ),
+      Text(
+        name,
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+        ),
+      )
+    ],
+  );
 }
