@@ -50,6 +50,8 @@ dependencies:
   google_fonts: ^3.0.1
   toggle_switch: ^2.0.1
   font_awesome_flutter: ^10.2.1
+  easy_sidemenu: ^0.4.1
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:
