@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'addMember.dart';
 import 'navBar.dart';
 import 'package:self_help/login.dart';
 import 'package:self_help/register.dart';
@@ -31,12 +33,17 @@ class _MyDashState extends State<MyDash> {
   }
 
   String name = "";
+
+  String bName = "";
   String email1 = "";
   String desg = "";
   bool? switchValue;
+  bool? isLog;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final User? user = FirebaseAuth.instance.currentUser;
+  String id='';
+  //dynamic bName;
 
   //String? email = FirebaseAuth.instance.currentUser?.email;
 
@@ -52,6 +59,8 @@ class _MyDashState extends State<MyDash> {
       name = data.docs[0]["name"];
       desg = data.docs[0]["designation"];
     });
+
+    await SessionManager().set("bId",widget.bID);
   }
 
   //.where('bachatgat.user.uid'=FirebaseAuth.instance.currentUser?.uid)
@@ -63,6 +72,18 @@ class _MyDashState extends State<MyDash> {
     //bool add = true;
     //bool view = false;
     // check user logged in or not
+
+    if (isLoggedIn) {
+      print('logged in/////////////////////////////////////////////////////////////');
+    }
+    else
+      print('Not Logged IN////////////////////////////////////////////////////////////');
+
+    // FirebaseAuth.instance.userChanges().listen((User? user1) {if(user1==null){
+    // print('user Sign out//////////////////////////////////////////////////');}
+    //   else
+    //     print('sign in///////////////////////////////////////////////');
+    // });
     if (desg != 'president') isVisible = false;
 
     final viewContent = Column(
@@ -117,7 +138,7 @@ class _MyDashState extends State<MyDash> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyRegister()),
+                MaterialPageRoute(builder: (context) => addMember()),
               );
             },
             style: ElevatedButton.styleFrom(
@@ -278,9 +299,12 @@ class _MyDashState extends State<MyDash> {
 
     if (isLoggedIn) {
       return Scaffold(
+        drawer: NavBar(),
+        appBar: AppBar(
+          title: Text(name),
+        ),
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        drawer: NavBar(),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -339,7 +363,7 @@ class _MyDashState extends State<MyDash> {
                                     padding:
                                         const EdgeInsetsDirectional.fromSTEB(
                                             4, 0, 0, 0),
-                                    child: Text(name),
+                                    child: Text(bName),
                                   ),
                                 ],
                               ),

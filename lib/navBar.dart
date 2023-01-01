@@ -16,7 +16,7 @@ class NavBar extends StatelessWidget {
                  color: Colors.green,
                  image: DecorationImage(
                      fit: BoxFit.fill,
-                     image: AssetImage('assets/1.png'))),
+                     image: AssetImage('assets/dashsutri.jpeg'))),
           ),
           ListTile(
             leading: Icon(Icons.input),

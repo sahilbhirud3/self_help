@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dashboard.dart';
-
+import '';
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
 
@@ -194,43 +195,17 @@ class _MyLoginState extends State<MyLogin> {
                                 try {
                                   if (_formKey.currentState!.validate())
                                     {
-                                      // Future<String> loadmyFoodItem() async {
-                                      //
-                                      //   await FirebaseFirestore.instance
-                                      //       .collection('bachatgat')
-                                      //       .where("name", isEqualTo: bName)
-                                      //       .get()
-                                      //       .then((onValue){
-                                      //     onValue.docs.forEach((f){
-                                      //
-                                      //       FirebaseFirestore.instance.collection('bachatgat').doc(f.id)
-                                      //           .collection('users')
-                                      //           .where('uid', isEqualTo: selectedFood)
-                                      //           .getDocuments()
-                                      //           .then((querySnapshot){
-                                      //         querySnapshot.documents.forEach((result){
-                                      //
-                                      //           selectedFoodRecipe = result.data['foodRecipe'];
-                                      //           print("selectedFoodRecipe $selectedFoodRecipe");
-                                      //
-                                      //         });
-                                      //       });
-                                      //     });
-                                      //   });
-                                      //
-                                      //   return 'ready';
-                                      // }//
-
-
-                                  final credential = await FirebaseAuth.instance
+                                       final credential = await FirebaseAuth.instance
                                       .signInWithEmailAndPassword(email: email, password: password).
                                   then((value) => FirebaseFirestore.instance
                                       .collection('bachatgat')
                                       .where("name", isEqualTo: bName)
                                       .get()
                                       .then((onValue){
-                                    onValue.docs.forEach((f){
+                                    onValue.docs.forEach((f) {
 
+
+                                      // await SessionManager().set("bName", bName);
                                       FirebaseFirestore.instance.collection('bachatgat').doc(f.id)
                                           .collection('users')
                                           .where('uid', isEqualTo: value.user?.uid)
@@ -238,6 +213,7 @@ class _MyLoginState extends State<MyLogin> {
                                           .then((querySnapshot){
                                     if(querySnapshot.docs.isNotEmpty)
                                       {
+
                                         String bid=f.id;
                                         Navigator.push(
                                           context,
