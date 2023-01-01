@@ -43,10 +43,9 @@ class _addMemberState extends State<addMember> {
 String id="";
 
   Future _getId() async {
-    print("_getDataFromDatabase called");
     id=await SessionManager().get("bId");
     }
-
+// id=SessionManager().get("bId");
 
   final _formKey=GlobalKey<FormState>();
   var status;
@@ -584,6 +583,7 @@ String id="";
                                                     'deposit':deposit,
                                                     'mob_no': mob,
                                                   });
+
                             //print("//////////////////////////////////////////"+idL);
                                                   Fluttertoast.showToast(
                                                       msg: "Member Added Successfully.",
@@ -595,7 +595,8 @@ String id="";
                                                       fontSize: 16.0
                                                   );
 
-                                                });
+                                                }
+                                                );
 
 
                                             }
@@ -626,6 +627,7 @@ String id="";
                                           } catch (e) {
                                             print(e);
                                           }
+
                                         },
                                         icon: Icon(
                                           Icons.arrow_forward,

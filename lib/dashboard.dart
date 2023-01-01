@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:self_help/showMember.dart';
 import 'addMember.dart';
 import 'navBar.dart';
 import 'package:self_help/login.dart';
@@ -24,12 +25,13 @@ class MyDash extends StatefulWidget {
 
 class _MyDashState extends State<MyDash> {
   //static get bID => bID;
-  bool _swap = false;
+  bool _swap = true;
 
   @override
   void initState() {
     super.initState();
     _getDataFromDatabase();
+
   }
 
   String name = "";
@@ -47,9 +49,10 @@ class _MyDashState extends State<MyDash> {
 
   //String? email = FirebaseAuth.instance.currentUser?.email;
 
-  Future _getDataFromDatabase() async {
+  Future _getDataFromDatabase() async{
+
     print("_getDataFromDatabase called");
-    await FirebaseFirestore.instance
+     await FirebaseFirestore.instance
         .collection('bachatgat')
         .doc(widget.bID)
         .collection('users')
@@ -58,9 +61,13 @@ class _MyDashState extends State<MyDash> {
         .listen((data) {
       name = data.docs[0]["name"];
       desg = data.docs[0]["designation"];
+      setState(() {
+
+      });
     });
 
     await SessionManager().set("bId",widget.bID);
+
   }
 
   //.where('bachatgat.user.uid'=FirebaseAuth.instance.currentUser?.uid)
@@ -92,11 +99,11 @@ class _MyDashState extends State<MyDash> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton.icon(
-              label: Text('Add Member/सभासद जोडा'),
+              label: Text('Member/सभासद'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyRegister()),
+                  MaterialPageRoute(builder: (context) => showMember()),
                 );
               },
               style: ElevatedButton.styleFrom(
