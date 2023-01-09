@@ -50,7 +50,8 @@ class _showMemberState extends State<showMember> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Text("\nMember"),
+            const Padding(padding: EdgeInsets.fromLTRB(15,25,15,0),child:Text("\nMembers",style: TextStyle(fontSize: 25),) ,),
+
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

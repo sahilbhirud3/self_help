@@ -4,8 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dashboard.dart';
-import '';
+import 'package:self_help/share.dart';
 class MyLogin extends StatefulWidget {
   const MyLogin({Key? key}) : super(key: key);
 
@@ -14,6 +15,32 @@ class MyLogin extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLogin> {
+  var id;
+  Future _getId() async {
+    id=await SessionManager().get("bId");
+    setState(() {
+
+    });
+  }
+
+
+
+  void initState() {
+    // checkUserLoginState();
+    _getId();
+    super.initState();
+
+
+  }
+
+  bool isLogin=false;
+  userLoginState()async{
+   SharedPreferences pref =await SharedPreferences.getInstance();
+              pref.setString("email", "useremail@gmail.com");
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+     return MyDash(bID: id);
+  }));
+  }
   //String bid='';
   //List<String> _bachatgatName = <String>['Jagadamba', 'Samrudhi', 'Umang'];
   final _formKey = GlobalKey<FormState>();
@@ -26,6 +53,14 @@ class _MyLoginState extends State<MyLogin> {
 
   @override
   Widget build(BuildContext context) {
+    // if(isLogin) {
+    //   _getId();
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => MyDash(bID: id)),
+    //   );
+    // }
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
@@ -213,6 +248,7 @@ class _MyLoginState extends State<MyLogin> {
                                           .then((querySnapshot){
                                     if(querySnapshot.docs.isNotEmpty)
                                       {
+                                        userLoginState();
 
                                         String bid=f.id;
                                         Navigator.push(
@@ -239,18 +275,6 @@ class _MyLoginState extends State<MyLogin> {
                                       });
                                     }));
                                   }
-
-                                  // var ref=await FirebaseFirestore.instance
-                                  //     .collection('bachatgat')
-                                  //     .where('bachatgat.name',isEqualTo: bName)
-                                  //     //.where('bachatgat.user.uid',isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-                                  //     .get() ;
-                                  //
-                                  //     print("Find////////////////////////////////////////////////////");
-
-
-
-
 
                                 } on FirebaseAuthException catch (e) {
                                   if (e.code == 'user-not-found') {

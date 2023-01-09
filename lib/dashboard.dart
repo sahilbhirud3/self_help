@@ -61,12 +61,22 @@ class _MyDashState extends State<MyDash> {
         .listen((data) {
       name = data.docs[0]["name"];
       desg = data.docs[0]["designation"];
+      
       setState(() {
 
       });
     });
+    await FirebaseFirestore.instance
+        .collection('bachatgat')
+        .doc(widget.bID)
+        .snapshots()
+        .listen((data) {
+      bName = data.get("name");
+      setState(() {
 
-    await SessionManager().set("bId",widget.bID);
+      });
+    });
+   
 
   }
 
@@ -76,21 +86,12 @@ class _MyDashState extends State<MyDash> {
   Widget build(BuildContext context) {
     bool isLoggedIn = FirebaseAuth.instance.currentUser != null ? true : false;
     bool isVisible = true;
-    //bool add = true;
-    //bool view = false;
-    // check user logged in or not
-
     if (isLoggedIn) {
       print('logged in/////////////////////////////////////////////////////////////');
     }
     else
       print('Not Logged IN////////////////////////////////////////////////////////////');
 
-    // FirebaseAuth.instance.userChanges().listen((User? user1) {if(user1==null){
-    // print('user Sign out//////////////////////////////////////////////////');}
-    //   else
-    //     print('sign in///////////////////////////////////////////////');
-    // });
     if (desg != 'president') isVisible = false;
 
     final viewContent = Column(

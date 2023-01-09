@@ -47,6 +47,9 @@ String id="";
     }
 // id=SessionManager().get("bId");
 
+
+
+
   final _formKey=GlobalKey<FormState>();
   var status;
   StreamSubscription<DocumentSnapshot>? subscription;
@@ -595,6 +598,11 @@ String id="";
                                                       fontSize: 16.0
                                                   );
 
+                                                  _formKey.currentState?.reset();
+                                                  dateinput.text = "";
+                                                  // Navigator.pop(context);
+
+
                                                 }
                                                 );
 
@@ -638,25 +646,25 @@ String id="";
                               SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushNamed(context, 'login');
-                                    },
-                                    child: Text(
-                                      'Sign In/लॉगिन',
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.white,
-                                          fontSize: 18),
-                                    ),
-                                    style: ButtonStyle(),
-                                  ),
-                                ],
-                              )
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     TextButton(
+                              //       onPressed: () {
+                              //         Navigator.pushNamed(context, 'login');
+                              //       },
+                              //       child: Text(
+                              //         'Sign In/लॉगिन',
+                              //         textAlign: TextAlign.left,
+                              //         style: TextStyle(
+                              //             decoration: TextDecoration.underline,
+                              //             color: Colors.white,
+                              //             fontSize: 18),
+                              //       ),
+                              //       style: ButtonStyle(),
+                              //     ),
+                              //   ],
+                              // )
                             ],
                           ),
                         )
