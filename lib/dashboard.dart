@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:self_help/addSavings.dart';
 import 'package:self_help/showMember.dart';
 import 'addMember.dart';
 import 'navBar.dart';
@@ -164,7 +165,7 @@ class _MyDashState extends State<MyDash> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyRegister()),
+                MaterialPageRoute(builder: (context) => addSavings()),
               );
             },
             style: ElevatedButton.styleFrom(

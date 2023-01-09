@@ -2,15 +2,9 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter/src/widgets/form.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:self_help/successful_msg.dart';
 
 
 

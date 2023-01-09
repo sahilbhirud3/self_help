@@ -8,13 +8,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NavBar extends StatelessWidget {
 
-  signOut(context) async{
-    //await FirebaseAuth.instance.signOut();
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.remove("email");
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-      return MyLogin();
-    }));
+  signOut() async{
+    await FirebaseAuth.instance.signOut();
+    // SharedPreferences pref = await SharedPreferences.getInstance();
+    // pref.remove("email");
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+    //   return MyLogin();
+    //}));
 
   }
 
@@ -65,7 +65,7 @@ class NavBar extends StatelessWidget {
             title: Text('Logout'),
             onTap: () => {
 
-              signOut(context),
+              signOut(),
     Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>MyLogin()))
             },
           ),
