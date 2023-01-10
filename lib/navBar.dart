@@ -27,7 +27,7 @@ class NavBar extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             child: Text(
-              'Side menu',
+              'Menu',
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
              decoration: BoxDecoration(
@@ -51,8 +51,13 @@ class NavBar extends StatelessWidget {
             )},
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
+            leading: Icon(Icons.adb_sharp),
+            title: Text('About App'),
+            onTap: () => {Navigator.of(context).pop()},
+          ),
+          ListTile(
+            leading: Icon(Icons.account_box_outlined),
+            title: Text('Contact Us'),
             onTap: () => {Navigator.of(context).pop()},
           ),
           ListTile(

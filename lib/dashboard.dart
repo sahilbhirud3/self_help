@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:self_help/addSavings.dart';
 import 'package:self_help/showMember.dart';
+import 'package:self_help/showSavings.dart';
 import 'addMember.dart';
 import 'navBar.dart';
 import 'package:self_help/login.dart';
@@ -119,11 +120,11 @@ class _MyDashState extends State<MyDash> {
               height: 20,
             ),
             ElevatedButton.icon(
-              label: Text('Add Savings/बचत जमा करा'),
+              label: Text('View Savings/बचत बघा'),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyRegister()),
+                  MaterialPageRoute(builder: (context) => showSavings()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -308,13 +309,22 @@ class _MyDashState extends State<MyDash> {
 
     if (isLoggedIn) {
       return Scaffold(
+
         drawer: NavBar(),
         appBar: AppBar(
           title: Text(name),
         ),
         key: scaffoldKey,
         backgroundColor: Colors.white,
-        body: Column(
+
+        body:Container(
+          decoration : BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/succ_login.png'), fit: BoxFit.cover),
+          ),
+        child:Column(
+
+
           mainAxisSize: MainAxisSize.max,
           children: [
             Container(
@@ -328,13 +338,15 @@ class _MyDashState extends State<MyDash> {
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(16, 40, 16, 0),
+                        const EdgeInsetsDirectional.fromSTEB(5, 16, 16, 16),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Card(
                           clipBehavior: Clip.antiAliasWithSaveLayer,
-                          color: Colors.black12,
+                          color: Colors.black,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                           ),
@@ -356,7 +368,7 @@ class _MyDashState extends State<MyDash> {
                         ),
                         Padding(
                           padding:
-                              const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                              const EdgeInsetsDirectional.fromSTEB(20, 0, 0, 20),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,14 +377,36 @@ class _MyDashState extends State<MyDash> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   const Text(
-                                    'Hi',
-                                    //style: FlutterFlowTheme.of(context).title3,
+                                    'Bachatgat :',
+                                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
                                   ),
                                   Padding(
                                     padding:
                                         const EdgeInsetsDirectional.fromSTEB(
                                             4, 0, 0, 0),
-                                    child: Text(bName),
+                                    child: Text(bName
+                                    ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+
+                                  const Text(
+                                    'Reg No :',
+                                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                                  ),
+                                  Padding(
+                                    padding:
+                                    const EdgeInsetsDirectional.fromSTEB(
+                                        4, 0, 0, 0),
+                                    child: Text(widget.bID
+                                      ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+
                                   ),
                                 ],
                               ),
@@ -513,7 +547,7 @@ class _MyDashState extends State<MyDash> {
 
             //newDuplicate
           ],
-        ),
+        ),)
       );
     } else {
       // if user isn't logged in, open login page

@@ -2,20 +2,23 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:intl/intl.dart';
+import 'package:string_validator/string_validator.dart';
 
 
 
-class showMember extends StatefulWidget {
-  const showMember({Key? key}) : super(key: key);
+class showSavings extends StatefulWidget {
+  const showSavings({Key? key}) : super(key: key);
 
   @override
-  State<showMember> createState() => _showMemberState();
+  State<showSavings> createState() => _showSavingsState();
 }
 
-class _showMemberState extends State<showMember> {
+class _showSavingsState extends State<showSavings> {
 
   @override
   void initState() {
@@ -26,7 +29,6 @@ class _showMemberState extends State<showMember> {
 
   final db = FirebaseFirestore.instance;
   late String reg_no;
-  String m_name="",nom_name="",address="",desg="",bankname="",bankac="",pan="",deposit="",mob="",email="",password="";
   var id;
   Future _getId() async {
     id=await SessionManager().get("bId");
@@ -40,19 +42,30 @@ class _showMemberState extends State<showMember> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        // decoration : BoxDecoration(
-        //   image: DecorationImage(
-        //       image: AssetImage('assets/login.png'), fit: BoxFit.fill,),
-        // ),
-      child:SingleChildScrollView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Padding(padding: EdgeInsets.fromLTRB(15,25,15,0),child:Text("\nMembers",style: TextStyle(fontSize: 25),) ,),
+            const Padding(padding: EdgeInsets.fromLTRB(15,25,15,0),child: Text("\n Your Savings/ तुमची बचत\n",style: TextStyle(fontSize: 25),),),
+            //const Padding(padding: EdgeInsets.fromLTRB(15,5,15,0),child:Text("\n Date\t Rupees",style: TextStyle(fontSize: 20),) ,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
+                children:
+                [
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    child:Text("Date",style: TextStyle(fontSize: 20),),),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+
+                    child:Text("Rupees",style: TextStyle(fontSize: 20),),)
+
+
+                ],
+              ),
             StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').snapshots(),
+              stream: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').doc(FirebaseAuth.instance.currentUser?.uid).collection('savings').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if(snapshot.hasData) {
                   final snap = snapshot.data!.docs;
@@ -79,16 +92,35 @@ class _showMemberState extends State<showMember> {
                         child: Stack(
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(left: 20),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                snap[index]['name'],
-                                style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
+                              //margin: const EdgeInsets.only(left: 20),
+                              //alignment: Alignment.centerLeft,
+                              child:Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children:[
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    child:Text(
+                                      DateFormat.yMMMd().format(snap[index]['date'].toDate()).toString(),
+                                      style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                Container(
+
+                                  child:Text(
+                                    snap[index]['amount'].toString(),
+                                    style: const TextStyle(
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
+
+
+                              ],
+                            ),),
                             // Container(
                             //   margin: const EdgeInsets.only(right: 20),
                             //   alignment: Alignment.centerRight,
@@ -112,7 +144,7 @@ class _showMemberState extends State<showMember> {
             )
           ],
         ),
-      ),)
+      ),
     );
   }
 }

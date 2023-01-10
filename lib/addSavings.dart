@@ -1,8 +1,9 @@
-
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,8 +13,6 @@ import 'package:flutter/src/widgets/form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:self_help/successful_msg.dart';
-
-
 
 class addSavings extends StatefulWidget {
   const addSavings({Key? key}) : super(key: key);
@@ -26,7 +25,8 @@ class _addSavingsState extends State<addSavings> {
   // final CollectionReference _register=
   // FirebaseFirestore.instance.collection('register');
   TextEditingController dateinput = TextEditingController();
-  TextEditingController mname=TextEditingController();
+  TextEditingController amt1 = TextEditingController();
+
   //text editing controller for text field
 
   @override
@@ -34,49 +34,57 @@ class _addSavingsState extends State<addSavings> {
     dateinput.text = ""; //set the initial value of text field
     super.initState();
     _getId();
-
   }
 
   final db = FirebaseFirestore.instance;
   late String reg_no;
+
 //Future<String> id = await SessionManager().get("key");
-  String m_name="",nom_name="",address="",desg="",bankname="",bankac="",pan="",deposit="",mob="",email="",password="";
-String id="";
+  String nom_name = "",
+      address = "",
+      desg = "",
+      bankname = "",
+      bankac = "",
+      pan = "",
+      deposit = "",
+      mob = "",
+      email = "",
+      password = "";
+  String id = "";
+  int amt = 0, fine = 0;
 
   Future _getId() async {
-    id=await SessionManager().get("bId");
-    setState(() {
+    id = await SessionManager().get("bId");
+    setState(() {});
+  }
 
-    });
-    }
 // id=SessionManager().get("bId");
 
-
-
-
-  final _formKey=GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   var status;
   StreamSubscription<DocumentSnapshot>? subscription;
+
   //final DocumentReference documentReference=FirebaseFirestore.instance.doc("register");
   DateTime? date;
 
   var mName;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration : BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
             image: AssetImage('assets/register.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Add Savings/बचत जमा करा',
-                  style: TextStyle(color: Colors.white, fontSize: 20),)
-              ]),
+          title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              'Add Savings/बचत जमा करा',
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            )
+          ]),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -90,17 +98,24 @@ String id="";
                     Container(
                         margin: EdgeInsets.only(left: 35, right: 35),
                         child: Form(
-                          key:_formKey,
-                          child:Column(
-                            children:<Widget> [
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
                               new StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance.collection('bachatgat').doc(id).collection('users').snapshots(),
-                                  builder: (context, snapshot){
-                                    if (!snapshot.hasData) return const Center(
-                                      child: const CupertinoActivityIndicator(),
-                                    );
+                                  stream: FirebaseFirestore.instance
+                                      .collection('bachatgat')
+                                      .doc(id)
+                                      .collection('users')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData)
+                                      return const Center(
+                                        child:
+                                            const CupertinoActivityIndicator(),
+                                      );
                                     var length = snapshot.data!.docs.length;
-                                    DocumentSnapshot ds = snapshot.data!.docs[length - 1];
+                                    DocumentSnapshot ds =
+                                        snapshot.data!.docs[length - 1];
                                     var _queryCat = snapshot.data!.docs;
                                     return new Container(
                                       padding: EdgeInsets.only(bottom: 16.0),
@@ -110,17 +125,17 @@ String id="";
                                           new Expanded(
                                               flex: 2,
                                               child: new Container(
-                                                padding: EdgeInsets.fromLTRB(12.0,10.0,10.0,10.0),
-
-                                                child: new Text("Choose Member/सदस्य निवडा",style: TextStyle(fontSize: 15,color: Colors.white)),
-
-                                              )
-                                          ),
-
+                                                padding: EdgeInsets.fromLTRB(
+                                                    12.0, 10.0, 10.0, 10.0),
+                                                child: new Text(
+                                                    "Choose Member/सदस्य निवडा",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.white)),
+                                              )),
                                           new Expanded(
-
                                             flex: 4,
-                                            child:new InputDecorator(
+                                            child: new InputDecorator(
                                               decoration: const InputDecoration(
                                                 //labelText: 'Activity',
                                                 hintText: 'Choose/निवडा',
@@ -130,14 +145,13 @@ String id="";
                                                   color: Colors.white,
                                                   fontFamily: "OpenSans",
                                                   //fontWeight: FontWeight.normal,
-
                                                 ),
                                               ),
 
                                               //style: TextStyle(color: Colors.white),
                                               isEmpty: mName == null,
-                                              child: new DropdownButtonFormField(
-
+                                              child:
+                                                  new DropdownButtonFormField(
                                                 //dropdownColor: Colors.greenAccent,
                                                 //selectedItemBuilder: ,
                                                 //style: TextStyle(color: Colors.white),
@@ -156,18 +170,20 @@ String id="";
                                                   });
                                                 },
 
-
-                                                validator:(value) {
+                                                validator: (value) {
                                                   if (value == null) {
                                                     return 'Select Member';
                                                   }
                                                   return null;
-                                                } ,
+                                                },
                                                 itemHeight: null,
-                                                items: snapshot.data!.docs.map((DocumentSnapshot document) {
-                                                  return new DropdownMenuItem<String>(
-
-                                                      value: document.get('name'),
+                                                items: snapshot.data!.docs.map(
+                                                    (DocumentSnapshot
+                                                        document) {
+                                                  return new DropdownMenuItem<
+                                                          String>(
+                                                      value:
+                                                          document.get('name'),
                                                       child: new Container(
                                                         // decoration: new BoxDecoration(
                                                         //    color: Colors.white,
@@ -176,13 +192,17 @@ String id="";
                                                         color: Colors.white,
                                                         height: 20.0,
 
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                10.0,
+                                                                2.0,
+                                                                10.0,
+                                                                0.0),
 
-
-                                                        padding: EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 0.0),
-
-                                                        child: new Text(document.get('name'),),
-                                                      )
-                                                  );
+                                                        child: new Text(
+                                                          document.get('name'),
+                                                        ),
+                                                      ));
                                                 }).toList(),
                                               ),
                                             ),
@@ -190,10 +210,92 @@ String id="";
                                         ],
                                       ),
                                     );
+                                  }),
+                              TextFormField(
+                                textAlignVertical: TextAlignVertical.top,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  height: 0.3,
+                                ),
+                                controller: dateinput,
+
+                                //editing controller of this TextField
+                                decoration: InputDecoration(
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: BorderSide(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    icon: Icon(Icons.calendar_today,
+                                        color: Colors.white),
+                                    labelText: "Date/ तारीख",
+                                    labelStyle: TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                                readOnly: true,
+                                //set it true, so that user will not able to edit text
+                                onTap: () async {
+                                  DateTime? pickedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2018),
+                                      //- not to allow to choose before today.
+                                      lastDate: DateTime.now());
+
+                                  if (pickedDate != null) {
+                                    print(
+                                        pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                    String formattedDate =
+                                        DateFormat('dd-MM-yyyy')
+                                            .format(pickedDate);
+                                    date =
+                                        pickedDate; //formatted date output using intl package =>  2021-03-16
+                                    //you can implement different kind of Date Format here according to your requirement
+
+                                    setState(() {
+                                      dateinput.text =
+                                          formattedDate; //set output date to TextField value.
+                                    });
+                                    // FirebaseFirestore.instance
+                                    //     .collection('bachatgat')
+                                    //     .doc(id)
+                                    //     .collection('users')
+                                    //     .where('name',isEqualTo: mName)
+                                    //     .get().then((value) =>
+                                    //     FirebaseFirestore.instance
+                                    //         .collection('bachatgat')
+                                    //         .doc(id)
+                                    //         .collection('users')
+                                    //         .doc(value.docs.first.id).collection('savings')
+                                    //         .where('date',isEqualTo:DateTime(date.year,date.month))
+                                    // );
+                                  } else {
+                                    print("Date is not selected");
                                   }
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Enter Entry Date/प्रवेशाची तारीख प्रविष्ट करा';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(
+                                height: 10,
                               ),
                               TextFormField(
-                                style: TextStyle(color: Colors.white,height: 0.3),
+                                keyboardType: TextInputType.number,
+                                style:
+                                    TextStyle(color: Colors.white, height: 0.3),
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -211,25 +313,26 @@ String id="";
                                     hintStyle: TextStyle(color: Colors.white),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
-
                                     )),
-                                onChanged: (String _val){
-
-                                  m_name=_val;
+                                onChanged: (String val) {
+                                  amt = int.parse(val);
+                                  print(amt);
                                 },
                                 validator: (value) {
-                                  if(value==null || value.isEmpty) {
+                                  if (value == null || value.isEmpty) {
                                     return 'Enter Saving Amount/बचत रक्कम प्रविष्ट करा';
                                   }
                                   return null;
                                 },
-                                controller: mname,
+                                controller: amt1,
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               TextFormField(
-                                style: TextStyle(color: Colors.white,height: 0.3),
+                                keyboardType: TextInputType.number,
+                                style:
+                                    TextStyle(color: Colors.white, height: 0.3),
                                 decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -248,74 +351,15 @@ String id="";
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     )),
-                                onChanged: (String _val){
-                                  nom_name=_val;
+                                onChanged: (_val) {
+                                  fine = int.parse(_val);
                                 },
-                                validator: (value){
-                                  if(value==null || value.isEmpty) {
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
                                     return 'Enter Fine/दंड प्रविष्ट करा';
-                                  }return null;
-                                },
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-
-
-                              TextFormField(
-                                textAlignVertical: TextAlignVertical.top,
-                                style: TextStyle(color: Colors.white,height: 0.3,),
-                                controller: dateinput,
-
-                                //editing controller of this TextField
-                                decoration:
-                                InputDecoration(
-
-
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),icon: Icon(Icons.calendar_today,color:Colors.white),
-                                    labelText: "Date/ तारीख",
-                                    labelStyle: TextStyle(fontSize: 15,color: Colors.white),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                                readOnly: true,  //set it true, so that user will not able to edit text
-                                onTap: () async {
-                                  DateTime? pickedDate = await showDatePicker(
-                                      context: context, initialDate: DateTime.now(),
-                                      firstDate: DateTime(2018) ,//- not to allow to choose before today.
-                                      lastDate: DateTime.now()
-                                  );
-
-                                  if(pickedDate != null ){
-                                    print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                                    String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
-                                    date=pickedDate; //formatted date output using intl package =>  2021-03-16
-                                    //you can implement different kind of Date Format here according to your requirement
-
-                                    setState(() {
-                                      dateinput.text = formattedDate; //set output date to TextField value.
-                                    });
-                                  }else{
-                                    print("Date is not selected");
                                   }
+                                  return null;
                                 },
-                                validator: (value){
-                                  if(value==null || value.isEmpty) {
-                                    return 'Enter Entry Date/प्रवेशाची तारीख प्रविष्ट करा';
-                                  }return null;
-                                },
-
                               ),
                               SizedBox(
                                 height: 10,
@@ -325,7 +369,8 @@ String id="";
                                 height: 20,
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Save/जतन करा',
@@ -340,102 +385,46 @@ String id="";
                                     child: IconButton(
                                         color: Colors.white,
                                         onPressed: () async {
-                                          try {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            FirebaseFirestore.instance
+                                                .collection('bachatgat')
+                                                .doc(id)
+                                                .collection('users')
+                                                .where('name', isEqualTo: mName)
+                                                .get()
+                                                .then((value) =>
+                                                    FirebaseFirestore.instance
+                                                        .collection('bachatgat')
+                                                        .doc(id)
+                                                        .collection('users')
+                                                        .doc(
+                                                            value.docs.first.id)
+                                                        .collection('savings')
+                                                        .add({
+                                                      'name': mName,
+                                                      'amount': amt,
+                                                      'fine': fine,
+                                                      'date': date
+                                                    }));
 
-                                            if(_formKey.currentState!.validate())  {
+                                            //print("//////////////////////////////////////////"+idL);
+                                            Fluttertoast.showToast(
+                                                msg:
+                                                    "Saving Added Successfully.",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor:
+                                                    Colors.greenAccent,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
 
-                                              // var snapshot = await FirebaseFirestore.instance
-                                              //     .collection('bachatgat')
-                                              //     .doc(reg_no)
-                                              //     .get();
-                                              // if (snapshot.exists) {
-                                              //   print("registered/////////////////////////////////////////////////////");
-                                              //   Fluttertoast.showToast(
-                                              //       msg: "Bachatgat is Already Registered",
-                                              //       toastLength: Toast.LENGTH_SHORT,
-                                              //       gravity: ToastGravity.BOTTOM,
-                                              //       timeInSecForIosWeb: 1,
-                                              //       backgroundColor: Colors.red,
-                                              //       textColor: Colors.white,
-                                              //       fontSize: 16.0
-                                              //   );
-                                              //
-                                              // }
-                                               // String idL=_getId() as String;
-                                                final credential = await FirebaseAuth
-                                                    .instance
-                                                    .createUserWithEmailAndPassword(
-                                                  email: email,
-                                                  password: password,
-                                                ).then((value) {
-                                                  FirebaseFirestore.instance
-                                                      .collection('bachatgat')
-                                                      .doc(id)
-                                                      .collection('users')
-                                                      .doc(value.user?.uid)
-                                                      .set({
-                                                    'uid':value.user?.uid,
-                                                    'name': m_name,
-                                                    'nominee':nom_name,
-                                                    'entryDate':date,
-                                                    'email': email,
-                                                    'designation': desg,
-                                                    'address': address,
-                                                    'bank_ac': bankac,
-                                                    'pan': pan,
-                                                    'deposit':deposit,
-                                                    'mob_no': mob,
-                                                  });
+                                            _formKey.currentState?.reset();
+                                            dateinput.text = "";
+                                            // Navigator.pop(context);
 
-                            //print("//////////////////////////////////////////"+idL);
-                                                  Fluttertoast.showToast(
-                                                      msg: "Member Added Successfully.",
-                                                      toastLength: Toast.LENGTH_SHORT,
-                                                      gravity: ToastGravity.BOTTOM,
-                                                      timeInSecForIosWeb: 1,
-                                                      backgroundColor: Colors.greenAccent,
-                                                      textColor: Colors.white,
-                                                      fontSize: 16.0
-                                                  );
-
-                                                  _formKey.currentState?.reset();
-                                                  dateinput.text = "";
-                                                  // Navigator.pop(context);
-
-
-                                                }
-                                                );
-
-
-                                            }
-                                          } on FirebaseAuthException catch (e) {
-                                            if (e.code == 'weak-password') {
-                                              Fluttertoast.showToast(
-                                                  msg: "The password provided is too weak.",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.red,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0
-                                              );
-                                              print('The password provided is too weak.');
-                                            } else if (e.code == 'email-already-in-use') {
-                                              Fluttertoast.showToast(
-                                                  msg: "The account already exists for that email.",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.red,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0
-                                              );
-                                              print('The account already exists for that email.');
-                                            }
-                                          } catch (e) {
-                                            print(e);
                                           }
-
                                         },
                                         icon: Icon(
                                           Icons.arrow_forward,
@@ -467,8 +456,7 @@ String id="";
                               // )
                             ],
                           ),
-                        )
-                    )
+                        ))
                   ],
                 ),
               ),
