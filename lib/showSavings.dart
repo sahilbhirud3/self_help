@@ -38,6 +38,7 @@ class _showSavingsState extends State<showSavings> {
   }
 
   var status;
+  num sumTotal=0,fineTotal=0;
   StreamSubscription<DocumentSnapshot>? subscription;
   @override
   Widget build(BuildContext context) {
@@ -59,13 +60,17 @@ class _showSavingsState extends State<showSavings> {
                   Container(
                     margin: const EdgeInsets.only(left: 20),
 
-                    child:Text("Rupees",style: TextStyle(fontSize: 20),),)
+                    child:Text("Rupees",style: TextStyle(fontSize: 20),),),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+
+                    child:Text("Fine",style: TextStyle(fontSize: 20),),)
 
 
                 ],
               ),
             StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').doc(FirebaseAuth.instance.currentUser?.uid).collection('savings').snapshots(),
+              stream: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').doc(FirebaseAuth.instance.currentUser?.uid).collection('savings').orderBy('date').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if(snapshot.hasData) {
                   final snap = snapshot.data!.docs;
@@ -104,9 +109,11 @@ class _showSavingsState extends State<showSavings> {
                                       style: const TextStyle(
                                         color: Colors.black54,
                                         fontWeight: FontWeight.bold,
+                                        fontSize: 16,
                                       ),
                                     ),
                                   ),
+
                                 Container(
 
                                   child:Text(
@@ -114,24 +121,27 @@ class _showSavingsState extends State<showSavings> {
                                     style: const TextStyle(
                                       color: Colors.black54,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    child:Text(
+                                      snap[index]['fine'].toString(),
+                                      style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
 
 
                               ],
                             ),),
-                            // Container(
-                            //   margin: const EdgeInsets.only(right: 20),
-                            //   alignment: Alignment.centerRight,
-                            //   child: Text(
-                            //     "\$${snap[index]['price']}",
-                            //     style: TextStyle(
-                            //       color: Colors.green.withOpacity(0.7),
-                            //       fontWeight: FontWeight.bold,
-                            //     ),
-                            //   ),
-                            // ),
+
+
                           ],
                         ),
                       );
@@ -141,7 +151,30 @@ class _showSavingsState extends State<showSavings> {
                   return const SizedBox();
                 }
               },
-            )
+            ),
+            FutureBuilder(
+              future: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').doc(FirebaseAuth.instance.currentUser?.uid).collection('savings').get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> querySnapshot) {
+                if (querySnapshot.hasError) {
+                  return Text("Something went wrong");
+                }
+
+                // if (snapshot.hasData && !snapshot.data!.exists) {
+                //   return Text("Document does not exist");
+                // }
+
+                if (querySnapshot.connectionState == ConnectionState.done) {
+                  querySnapshot.data!.docs.forEach((doc) {
+                    sumTotal = sumTotal + doc.get('amount'); // make sure you create the variable sumTotal somewhere
+                    fineTotal = fineTotal + doc.get('fine');
+                  });
+                  return Text("Your Total Saving is : ${sumTotal}\n \nTotal Fine Paid: ${fineTotal}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),);
+                }
+
+                return Text("loading");
+              },
+            ),
           ],
         ),
       ),

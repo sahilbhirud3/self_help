@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   }
   var id;
-  String name="";
+  String name="",image1="";
   String email="";String phone="";String address="";
 
   Future _getId() async {
@@ -47,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
       email = data.docs[0]["email"];
       phone = data.docs[0]["mob_no"];
       address = data.docs[0]["address"];
+      image1=data.docs[0]['image'];
       setState(() {
 
       });
@@ -85,13 +86,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 navigateSecondPage(EditImagePage());
               },
               child: DisplayImage(
-                imagePath: user.image,
+                imagePath: image1.isNotEmpty?image1:'assets/shg_logo.png',
                 onPressed: () {},
               )),
           buildUserInfoDisplay(name, 'Name', EditNameFormPage()),
           buildUserInfoDisplay(phone, 'Phone', EditPhoneFormPage()),
           buildUserInfoDisplay(email, 'Email', EditEmailFormPage()),
           buildUserInfoDisplay(address, 'Address', EditAddressFormPage()),
+
         ],
       ),
     );
@@ -107,8 +109,8 @@ class _ProfilePageState extends State<ProfilePage> {
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                   color: Colors.grey,
                 ),
               ),

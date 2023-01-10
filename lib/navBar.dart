@@ -25,21 +25,24 @@ class NavBar extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
+          DrawerHeader( margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
             child: Text(
               'Menu',
               style: TextStyle(color: Colors.white, fontSize: 25),
             ),
              decoration: BoxDecoration(
+
+              
                  color: Colors.green,
                  image: DecorationImage(
-                     fit: BoxFit.fill,
-                     image: AssetImage('assets/dashsutri.jpeg'))),
+                        
+                    fit: BoxFit.fill,
+                     image: AssetImage('assets/dashsutri.jpeg'),)),padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
           ),
           ListTile(
             leading: Icon(Icons.input),
             title: Text('Welcome'),
-            onTap: () => {},
+            onTap: () => {Navigator.of(context).pop()},
           ),
           ListTile(
             leading: Icon(Icons.verified_user),

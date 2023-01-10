@@ -604,6 +604,7 @@ class _MyRegisterState extends State<MyRegister> {
                                                     'pan': pan,
                                                     'member_count': mcnt,
                                                     'mob_no': mob,
+                                                    'image':''
                                                   });
 
                                                   FirebaseFirestore.instance

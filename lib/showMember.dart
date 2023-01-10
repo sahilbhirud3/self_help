@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:self_help/widgets/display_image_widget.dart';
 
 
 
@@ -49,7 +50,7 @@ class _showMemberState extends State<showMember> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Padding(padding: EdgeInsets.fromLTRB(15,25,15,0),child:Text("\nMembers",style: TextStyle(fontSize: 25),) ,),
+            const Padding(padding: EdgeInsets.fromLTRB(15,25,15,0),child:Text("\nMembers / सभासद",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),) ,),
 
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection("bachatgat").doc(id).collection('users').snapshots(),
@@ -79,16 +80,44 @@ class _showMemberState extends State<showMember> {
                         child: Stack(
                           children: [
                             Container(
-                              margin: const EdgeInsets.only(left: 20),
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                snap[index]['name'],
-                                style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              child:Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    height: 60.0,
+                                    width: 60.0,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image:NetworkImage(snap[index]['image']),
+                                            fit: BoxFit.cover
+                                        )
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: 20),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      snap[index]['name'],
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              )
                             ),
+                            // InkWell(
+                            //
+                            //     child: DisplayImage(
+                            //       imagePath: snap[index]['image'].isNotEmpty?snap[index]['image']:'assets/shg_logo.png',
+                            //       onPressed: () {},
+                            //     )),
+
                             // Container(
                             //   margin: const EdgeInsets.only(right: 20),
                             //   alignment: Alignment.centerRight,
