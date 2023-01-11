@@ -20,8 +20,6 @@ class showRules extends StatefulWidget {
 }
 
 class _showRulesState extends State<showRules> {
-
-
   @override
   void initState() {
     super.initState();
@@ -34,13 +32,11 @@ class _showRulesState extends State<showRules> {
 
   Future _getId() async {
     id = await SessionManager().get("bId");
-    setState(() {
-      
-    });
+    setState(() {});
   }
+
   final _formKey = GlobalKey<FormState>();
   StreamSubscription<DocumentSnapshot>? subscription;
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +64,6 @@ class _showRulesState extends State<showRules> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection("bachatgat")
@@ -85,7 +80,6 @@ class _showRulesState extends State<showRules> {
                             itemCount: snap.length,
                             itemBuilder: (context, index) {
                               return Container(
-
                                 width: double.infinity,
                                 margin: const EdgeInsets.only(bottom: 12),
                                 decoration: BoxDecoration(
@@ -102,15 +96,17 @@ class _showRulesState extends State<showRules> {
                                 child: Stack(
                                   children: [
                                     Container(
-                                      child:Expanded(child: Row(
+                                      child: Expanded(
+                                          child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         children: [
                                           Container(
-                                            margin: const EdgeInsets.only(left: 20),
+                                            margin:
+                                                const EdgeInsets.only(left: 20),
                                             alignment: Alignment.centerLeft,
                                             child: Text(
-                                              '${index+1}',
+                                              '${index + 1}',
                                               style: const TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black54,
@@ -119,9 +115,9 @@ class _showRulesState extends State<showRules> {
                                             ),
                                           ),
                                           Container(
-
                                             margin:
-                                            const EdgeInsets.only(left: 20),width: 300,
+                                                const EdgeInsets.only(left: 20),
+                                            width: 300,
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               snap[index]['rule'],
@@ -132,9 +128,9 @@ class _showRulesState extends State<showRules> {
                                               ),
                                             ),
                                           ),
-
                                         ],
-                                      )),)
+                                      )),
+                                    )
                                   ],
                                 ),
                               );

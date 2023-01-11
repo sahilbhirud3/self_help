@@ -162,7 +162,7 @@ class _removeMemberState extends State<removeMember> {
                                           // set up the AlertDialog
                                           AlertDialog alert = AlertDialog(
                                             title: Text("AlertDialog"),
-                                            content: Text("Would you like to continue learning how to use Flutter alerts?"),
+                                            content: Text("Do you want to remove member ?"),
                                             actions: [
                                               cancelButton,
                                               continueButton,

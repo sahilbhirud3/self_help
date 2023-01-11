@@ -3,6 +3,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:self_help/login.dart';
+import 'package:self_help/otherPages/aboutApp.dart';
+import 'package:self_help/otherPages/contactUs.dart';
 import 'package:self_help/pages/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -56,18 +58,26 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.adb_sharp),
             title: Text('About App'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {Navigator.push(
+              context, MaterialPageRoute(
+                builder: (context) =>
+                    aboutApp()),
+            )},
           ),
           ListTile(
             leading: Icon(Icons.account_box_outlined),
             title: Text('Contact Us'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {Navigator.push(
+              context, MaterialPageRoute(
+                builder: (context) =>
+                    contactUs()),
+            )},
           ),
-          ListTile(
-            leading: Icon(Icons.border_color),
-            title: Text('Feedback'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.border_color),
+          //   title: Text('Feedback'),
+          //   onTap: () => {Navigator.of(context).pop()},
+          // ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
