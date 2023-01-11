@@ -155,35 +155,7 @@ String id="";
                               SizedBox(
                                 height: 10,
                               ),
-                              TextFormField(
-                                style: TextStyle(color: Colors.white,height: 0.3),
-                                decoration: InputDecoration(
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    hintText: "Designation/भूमिका",
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                                onChanged: (String _val){
-                                  desg=_val;
-                                },
-                                validator: (value){
-                                  if(value==null || value.isEmpty) {
-                                    return 'Enter Designation/भूमिका प्रविष्ट करा';
-                                  }return null;
-                                },
-                              ),
+
                               SizedBox(
                                 height: 10,
                               ),
@@ -579,7 +551,7 @@ String id="";
                                                     'nominee':nom_name,
                                                     'entryDate':date,
                                                     'email': email,
-                                                    'designation': desg,
+                                                    'designation': 'member',
                                                     'address': address,
                                                     'bank_ac': bankac,
                                                     'pan': pan,
