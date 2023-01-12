@@ -2,10 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:self_help/addSavings.dart';
+import 'package:self_help/issueLoan.dart';
 import 'package:self_help/otherPages/addRules.dart';
 import 'package:self_help/otherPages/showRules.dart';
 import 'package:self_help/otherPages/showSchemes.dart';
+import 'package:self_help/payLoan.dart';
 import 'package:self_help/removeMember.dart';
+import 'package:self_help/showLoan.dart';
 import 'package:self_help/showMember.dart';
 import 'package:self_help/showSavings.dart';
 import 'addMember.dart';
@@ -106,7 +109,7 @@ class _MyDashState extends State<MyDash> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton.icon(
-              label: Text('Member/सभासद'),
+              label: Text('Members/सभासद'),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -137,6 +140,31 @@ class _MyDashState extends State<MyDash> {
                   backgroundColor: Colors.lightBlueAccent,
                   fixedSize: Size(150, 50)),
               icon: Icon(FontAwesomeIcons.piggyBank),
+            ),
+          ],
+        ),
+        SizedBox(height: 20,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            ElevatedButton.icon(
+              label: Text('View Loan/कर्ज बघा'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => showLoan()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                  elevation: 20,
+                  backgroundColor: Colors.lightBlueAccent,
+                  fixedSize: Size(150, 50)),
+              icon: Icon(FontAwesomeIcons.landmark),
             ),
           ],
         ),
@@ -243,21 +271,31 @@ class _MyDashState extends State<MyDash> {
                 fixedSize: Size(150, 50)),
             icon: Icon(FontAwesomeIcons.piggyBank),
           ),
-          // ElevatedButton.icon(
-          //   label: Text('Allocate Loan/कर्ज वाटप करा'),
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => MyRegister()),
-          //     );
-          //   },
-          //   style: ElevatedButton.styleFrom(
-          //       shadowColor: Colors.black,
-          //       elevation: 20,
-          //       backgroundColor: Colors.lightBlueAccent,
-          //       fixedSize: Size(150, 50)),
-          //   icon: Icon(FontAwesomeIcons.moneyBillTrendUp),
-          // ),
+
+        ],
+      ),
+      const SizedBox(
+        height: 20,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+
+          ElevatedButton.icon(
+            label: Text('Allocate Loan/कर्ज वाटप करा'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => issueLoan()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+                shadowColor: Colors.black,
+                elevation: 20,
+                backgroundColor: Colors.lightBlueAccent,
+                fixedSize: Size(150, 50)),
+            icon: Icon(FontAwesomeIcons.moneyBillTrendUp),
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -266,7 +304,7 @@ class _MyDashState extends State<MyDash> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MyRegister()),
+                MaterialPageRoute(builder: (context) => payLoan()),
               );
             },
             style: ElevatedButton.styleFrom(
