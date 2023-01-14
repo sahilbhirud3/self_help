@@ -34,13 +34,13 @@ class _MyLoginState extends State<MyLogin> {
   }
 
   bool isLogin=false;
-  userLoginState()async{
-   SharedPreferences pref =await SharedPreferences.getInstance();
-              pref.setString("email", "useremail@gmail.com");
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-     return MyDash(bID: id);
-  }));
-  }
+  // userLoginState()async{
+  //  SharedPreferences pref =await SharedPreferences.getInstance();
+  //             pref.setString("email", "useremail@gmail.com");
+  //             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+  //    return MyDash(bID: id);
+  // }));
+  // }
   //String bid='';
   //List<String> _bachatgatName = <String>['Jagadamba', 'Samrudhi', 'Umang'];
   final _formKey = GlobalKey<FormState>();
@@ -248,7 +248,7 @@ class _MyLoginState extends State<MyLogin> {
                                           .then((querySnapshot){
                                     if(querySnapshot.docs.isNotEmpty)
                                       {
-                                        userLoginState();
+                                        //userLoginState();
 
                                         String bid=f.id;
                                         Navigator.push(

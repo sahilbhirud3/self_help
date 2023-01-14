@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:self_help/login.dart';
 import 'package:self_help/otherPages/aboutApp.dart';
 import 'package:self_help/otherPages/contactUs.dart';
@@ -11,12 +12,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class NavBar extends StatelessWidget {
 
   signOut() async{
+    await SessionManager().destroy();
     await FirebaseAuth.instance.signOut();
+
     // SharedPreferences pref = await SharedPreferences.getInstance();
     // pref.remove("email");
     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
     //   return MyLogin();
     //}));
+
 
   }
 

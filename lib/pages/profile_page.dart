@@ -91,7 +91,45 @@ class _ProfilePageState extends State<ProfilePage> {
               )),
           buildUserInfoDisplay(name, 'Name', EditNameFormPage()),
           buildUserInfoDisplay(phone, 'Phone', EditPhoneFormPage()),
-          buildUserInfoDisplay(email, 'Email', EditEmailFormPage()),
+        Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'email',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  height: 1,
+                ),
+                Container(
+                    width: 350,
+                    height: 40,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey,
+                              width: 1,
+                            ))),
+                    child: Row(children: [
+                      Expanded(
+                          child: TextButton(
+                              onPressed: () {
+
+                              },
+                              child: Text(
+                                email,
+                                style: TextStyle(fontSize: 16, height: 1.4),
+                              ))),
+
+                    ]))
+              ],
+            )),
           buildUserInfoDisplay(address, 'Address', EditAddressFormPage()),
 
         ],

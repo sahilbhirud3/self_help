@@ -59,7 +59,7 @@ class _MyDashState extends State<MyDash> {
   //String? email = FirebaseAuth.instance.currentUser?.email;
 
   Future _getDataFromDatabase() async{
-
+    await SessionManager().set("bId", widget.bID);
     print("_getDataFromDatabase called");
      await FirebaseFirestore.instance
         .collection('bachatgat')
@@ -459,7 +459,7 @@ class _MyDashState extends State<MyDash> {
                                 children: [
                                   const Text(
                                     'Bachatgat :',
-                                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),
                                   ),
                                   Padding(
                                     padding:
